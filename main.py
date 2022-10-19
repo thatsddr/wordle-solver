@@ -82,14 +82,28 @@ class Wordle:
         return False
 
     def play(self):
-        self.show()
+        d = Display()
+        d.clear()
+
         while not self.won() and len(self.guesses) < 6:
-            d = Display()
+            accepted_guess = False
+            new_guess = ""
+            while not accepted_guess:
+                new_guess = input("Type your guess: ")
+                if len(new_guess) == 5 and new_guess.upper() in self.words:
+                    accepted_guess = True
+                else:
+                    print("Invalid guess")
+
+            self.guesses.append(new_guess.upper())
             d.clear()
             for g in self.guesses:
                 d.show(self.check_correct(g))
-            new_guess = input("Type your guess: ")
-            self.guesses.append(new_guess.upper())
+
+        if self.won():
+            print("Congrats!🎉")
+        else:
+            print(f"Better luck next time! The word was {self.word}")
 
 
 def main():
