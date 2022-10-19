@@ -1,4 +1,5 @@
 import random
+import os
 from enum import Enum
 
 
@@ -24,9 +25,12 @@ class Display:
             "reset": "\u001b[0m"
         }
 
+    @staticmethod
+    def clear():
+        os.system('clear')
+
     def show(self, word: list[tuple[str, Status]]):
         output = ""
-        bg = ""
         for l in word:
             if l[1] == Status.CORRECT:
                 bg = self.bg_colors['green']
@@ -43,7 +47,7 @@ class Wordle:
     def __init__(self):
         with open("data/words.txt") as f:
             self.words = set(f.read().upper().splitlines())
-            self.word = random.choice(tuple(self.words))
+            self.word = random.choice(tuple(self.words)).upper()
             self.guesses = []
 
     def show(self):
@@ -51,16 +55,23 @@ class Wordle:
 
     def check_correct(self, guess):
         res = []
-        word = list(self.word)
+        word = [[letter, False] for letter in self.word]
+
         for i in range(len(word)):
             status = Status.WRONG
-            if word[i].upper() == guess[i].upper():
+
+            if word[i][0] == guess[i]:
                 status = Status.CORRECT
-                word[i] = "_"
-            elif guess[i].upper() in self.word.upper():
-                index = self.word.upper().index(guess[i].upper())
-                if self.word.upper()[index] != guess[index]:
-                    status = Status.MISPLACED
+                word[i][1] = True
+
+            elif guess[i] in self.word:
+                index = self.word.index(guess[i])
+                if self.word[index] != guess[index]:
+                    for j in range(len(word)):
+                        if guess[i] == word[j][0] and not word[j][1]:
+                            status = Status.MISPLACED
+                            word[j][1] = True
+
             res.append((guess[i], status))
         return res
 
@@ -71,12 +82,15 @@ class Wordle:
         return False
 
     def play(self):
+        self.show()
         while not self.won() and len(self.guesses) < 6:
             d = Display()
+            d.clear()
             for g in self.guesses:
                 d.show(self.check_correct(g))
             new_guess = input("Type your guess: ")
-            self.guesses.append(new_guess)
+            self.guesses.append(new_guess.upper())
+
 
 def main():
     wordle = Wordle()
