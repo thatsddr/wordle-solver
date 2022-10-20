@@ -65,3 +65,15 @@ class Wordle:
             print("Congrats!🎉")
         else:
             print(f"Better luck next time! The word was {self.word}")
+
+    def guess(self, word):
+        d = Display()
+        d.clear()
+        if word.upper() not in self.words:
+            print("Error: guess not allowed")
+            return
+        self.guesses.append(word.upper())
+        d.clear()
+        for g in self.guesses:
+            d.show(self.check_correct(g))
+        return self.check_correct(word.upper())
