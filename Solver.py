@@ -11,7 +11,7 @@ class Solver:
             self.correct_letters = {}
             self.misplaced_letters = []
             self.wrong_letters = []
-            self.letter_frequency = dict.fromkeys(string.ascii_uppercase, 0)
+            self.letter_frequencies = dict.fromkeys(string.ascii_uppercase, [0] * 5)
             self.words_score = {}
 
     def add_guess(self, guess: list[tuple[str, Status]]):
@@ -63,24 +63,30 @@ class Solver:
                         # remove all words that don't have letters in correct position
                         if w[i] != l:
                             self.words.remove(w)
-        print(sorted(list(self.words)), len(self.words))
 
     def calculate_frequency(self):
-        self.letter_frequency = dict.fromkeys(string.ascii_uppercase, 0)
-        for word in self.words:
-            for letter in word:
-                self.letter_frequency[letter] += 1
+        self.letter_frequencies = {}
+        for l in string.ascii_uppercase:
+            self.letter_frequencies[l] = [0] * 5
+            for w in self.words:
+                for i in range(len(w)):
+                    if w[i] == l:
+                        self.letter_frequencies[l][i] += 1
+        print(self.letter_frequencies)
+        # bug in the following approach
+        # for w in self.words:
+        #     for i in range(5):
+        #         self.letter_frequencies[w[i]][i] += 1
+
 
     def calculate_words_score(self):
         self.words_score = dict.fromkeys(self.words, 0)
-        for word in self.words:
-            letters_counted = []
-            for letter in word:
-                if letter not in letters_counted:
-                    self.words_score[word] += self.letter_frequency[letter]
-                    letters_counted.append(letter)
-        self.words_score = dict(sorted(self.words_score.items(), key=lambda item: -item[1]))
-        # print(list(self.words_score.keys())[0:10])
+        for w in self.words:
+            for i in range(len(w)):
+                self.words_score[w] += self.letter_frequencies[w[i]][i]
 
-    def pick_word(self):
-        return
+        self.words_score = dict(sorted(self.words_score.items(), key=lambda item: -item[1]))
+
+        # print(self.words_score)
+
+
