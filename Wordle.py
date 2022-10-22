@@ -5,13 +5,15 @@ from Display import Display
 
 class Wordle:
 
-    def __init__(self):
+    def __init__(self, word = None):
         with open("data/words.txt") as f:
             self.words = set(f.read().upper().splitlines())
             self.word = random.choice(tuple(self.words)).upper()
+            if word and word.upper() in self.words:
+                self.word = word.upper()
             self.guesses = []
 
-    def show(self):
+    def reveal(self):
         return self.word
 
     def check_correct(self, guess):
@@ -41,6 +43,9 @@ class Wordle:
             if self.word.upper() == self.guesses[-1].upper():
                 return True
             return False
+
+    def stats(self):
+        return {"won": self.won(), "guesses": len(self.guesses), "solution": self.reveal()}
 
     def is_game_over(self):
         if self.won() or len(self.guesses) > 5:
@@ -81,4 +86,11 @@ class Wordle:
         d.clear()
         for g in self.guesses:
             d.show(self.check_correct(g))
+        return self.check_correct(word.upper())
+
+    def performance_guess(self, word):
+        if word.upper() not in self.words:
+            print("Error: guess not allowed")
+            return
+        self.guesses.append(word.upper())
         return self.check_correct(word.upper())
