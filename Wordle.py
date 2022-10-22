@@ -77,3 +77,7 @@ class Wordle:
         for g in self.guesses:
             d.show(self.check_correct(g))
         return self.check_correct(word.upper())
+
+# idea: count which letter is more recurring and guess a word with that letter to eliminate the most of them
+
+# remove words that don't contain misplaced letters

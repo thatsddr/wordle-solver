@@ -8,8 +8,10 @@ def main():
 
     wordle.show()
     while not wordle.won():
+        solver.calculate_words_score()
         a = wordle.guess(input("guess: "))
         solver.add_guess(a)
+
     #wordle.play()
 
 
