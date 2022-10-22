@@ -42,6 +42,11 @@ class Wordle:
                 return True
             return False
 
+    def is_game_over(self):
+        if self.won() or len(self.guesses) > 5:
+            return True
+        return False
+
     def play(self):
         d = Display()
         d.clear()
@@ -77,7 +82,3 @@ class Wordle:
         for g in self.guesses:
             d.show(self.check_correct(g))
         return self.check_correct(word.upper())
-
-# idea: count which letter is more recurring and guess a word with that letter to eliminate the most of them
-
-# remove words that don't contain misplaced letters
