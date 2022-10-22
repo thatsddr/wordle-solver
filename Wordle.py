@@ -12,7 +12,7 @@ class Wordle:
             self.guesses = []
 
     def show(self):
-        print(self.word)
+        return self.word
 
     def check_correct(self, guess):
         res = []
