@@ -7,6 +7,6 @@ After picking a word from Wordle's solution lists, this AI tries to guess the wo
 python3 main.py
 ```
 The program takes 2 optional arguments:
-`automatic`: a boolean value that determines wheter or not the AI automatically plays or just suggests a word to the user;<br/>
-`word`: a string that determines the final word as chosen by the user.
+* `automatic`: a boolean value that determines wheter or not the AI automatically plays or just suggests a word to the user;<br/>
+* `word`: a string that determines the final word as chosen by the user.
 
