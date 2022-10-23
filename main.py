@@ -5,7 +5,7 @@ from Solver import Solver
 
 def solve_wordle(automatic=False, word=None):
     wordle = Wordle(word)
-    solver = Solver()
+    solver = Solver(wordle.return_words())
 
     while not wordle.is_game_over():
         solver.update()

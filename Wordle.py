@@ -9,12 +9,19 @@ class Wordle:
         with open("data/words.txt") as f:
             self.words = set(f.read().upper().splitlines())
             self.word = random.choice(tuple(self.words)).upper()
-            if word and word.upper() in self.words:
+            if word and len(word) == 5:
+                if word.upper() not in self.words:
+                    self.words.add(word)
                 self.word = word.upper()
+            elif len(word) != 5:
+                print(f"INFO: {word} is not 5 letters long and won't be used.")
             self.guesses = []
 
     def reveal(self):
         return self.word
+
+    def return_words(self):
+        return self.words
 
     def check_correct(self, guess):
         res = []

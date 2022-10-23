@@ -4,15 +4,14 @@ import string
 
 class Solver:
 
-    def __init__(self):
-        with open("data/words.txt") as f:
-            self.words = set(f.read().upper().splitlines())
-            self.guesses: list[list[touple[string, Status]]] = []
-            self.correct_letters = {}
-            self.misplaced_letters = []
-            self.wrong_letters = []
-            self.letter_frequencies = dict.fromkeys(string.ascii_uppercase, [0] * 5)
-            self.words_score = {}
+    def __init__(self, words):
+        self.words = words
+        self.guesses: list[list[touple[string, Status]]] = []
+        self.correct_letters = {}
+        self.misplaced_letters = []
+        self.wrong_letters = []
+        self.letter_frequencies = dict.fromkeys(string.ascii_uppercase, [0] * 5)
+        self.words_score = {}
 
     def add_guess(self, guess: list[tuple[str, Status]]):
         if guess:
