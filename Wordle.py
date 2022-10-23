@@ -13,7 +13,7 @@ class Wordle:
                 if word.upper() not in self.words:
                     self.words.add(word)
                 self.word = word.upper()
-            elif len(word) != 5:
+            elif word and len(word) != 5:
                 print(f"INFO: {word} is not 5 letters long and won't be used.")
             self.guesses = []
 
